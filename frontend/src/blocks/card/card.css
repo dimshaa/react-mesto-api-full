@@ -1,0 +1,9 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 361px;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
