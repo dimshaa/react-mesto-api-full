@@ -21,7 +21,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 
 app.use(cors({
-  origin: ['http://localhost:3000'],
+  origin: ['http://localhost:3000', 'http://domesto.nomorepartiesxyz.ru', 'https://domesto.nomorepartiesxyz.ru'],
   credentials: true,
 }));
 
