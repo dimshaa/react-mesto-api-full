@@ -12,7 +12,7 @@ const { errorHandler } = require('./middlewares/errorHandler');
 const { checkSignIn, checkSignUp } = require('./middlewares/validation');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 4000 } = process.env;
+const { PORT = 3000 } = process.env;
 
 const app = express();
 
@@ -29,6 +29,12 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use(requestLogger);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.post('/signup', checkSignUp, createUser);
 app.post('/signin', checkSignIn, login);
