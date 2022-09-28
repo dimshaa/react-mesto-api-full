@@ -14,7 +14,7 @@ const login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign({ _id: user.id }, 'some-secret-key', { expiresIn: '7d' });
 
-      res.cookie('jwt', token, { maxAge: 604800000, httpOnly: true }).send({ data: user.toJSON() });
+      res.cookie('jwt', token, { maxAge: 604800000, httpOnly: true }).send(user.toJSON());
     })
     .catch(() => {
       next(new UnauthorizedError('Wrong email or password'));
@@ -28,7 +28,7 @@ const getUserInfo = (req, res, next) => {
         next(new NotFoundError('User not found'));
         return;
       }
-      res.send({ data: user });
+      res.send(user);
     })
     .catch((err) => {
       next(err);
@@ -38,7 +38,7 @@ const getUserInfo = (req, res, next) => {
 const getUsers = (req, res, next) => {
   User.find({})
     .then((users) => {
-      res.send({ data: users });
+      res.send(users);
     })
     .catch((err) => {
       next(err);
@@ -52,7 +52,7 @@ const getUserById = (req, res, next) => {
         next(new NotFoundError('User not found'));
         return;
       }
-      res.send({ data: user });
+      res.send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -82,7 +82,7 @@ const createUser = (req, res, next) => {
         password: passwordHash,
       })
         .then((user) => {
-          res.send({ data: user.toJSON() });
+          res.send(user.toJSON());
         })
         .catch((err) => {
           if (err.name === 'ValidationError') {
@@ -117,7 +117,7 @@ const updateUserInfo = (req, res, next) => {
         next(new NotFoundError('User not found'));
         return;
       }
-      res.send({ data: user });
+      res.send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -144,7 +144,7 @@ const updateUserAvatar = (req, res, next) => {
         next(new NotFoundError('User not found'));
         return;
       }
-      res.send({ data: user });
+      res.send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {

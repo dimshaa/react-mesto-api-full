@@ -31,23 +31,17 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false)
 
-  // useEffect(() => {
-  //   api.getUserInfo()
-  //     .then(res => {
-  //     setCurrentUser(res);
-  //   })
-  //     .catch(err => console.log(err))
-  // }, []);
-
   useEffect(() => {
     if (loggedIn) {
       api.getUserInfo()
-      .then(({ data }) => {
-      setCurrentUser(data);
+      .then((user) => {
+        setCurrentUser(user);
+        setAuthorizedUser(user.email)
+        history.push('/');
     })
       .catch(err => console.log(err))      
     };
-  }, [loggedIn]);
+  }, [loggedIn, history]);
 
   useEffect(() => {
     if (currentUser) {
@@ -55,24 +49,20 @@ function App() {
       api.getInitialCards()
         .then((res) => {
           setCards(res);
+          history.push('/');
         })
         .catch(err => console.log(err))
     }
-  }, [currentUser]);
+  }, [currentUser, history]);
 
-    // useEffect(() => {
-  //   const token = localStorage.getItem('jwt');
+    useEffect(() => {
+    const isLogged = localStorage.getItem('loggedIn');
 
-  //   if (token) {
-  //     auth.checkToken(token)
-  //     .then(({ data }) => {
-  //       setAuthorizedUser(data.email);
-  //       setLoggedIn(true);
-  //       history.push('/')
-  //     })
-  //     .catch(err => console.log(err));
-  //   }
-  // }, [])
+    if (isLogged) {
+      setLoggedIn(true);
+      history.push('/')
+    }
+  }, [history])
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -160,10 +150,10 @@ function App() {
 
   function handleLoginSubmit({ password, email }) {
     auth.authorize({ password, email })
-    .then(({ data }) => {
-      setLoggedIn(true);
-      setAuthorizedUser(data.email);
+    .then((user) => {
       localStorage.setItem('loggedIn', true);
+      setLoggedIn(localStorage.getItem('loggedIn'));
+      setAuthorizedUser(user.email);
       history.push('/');
     })
     .catch((err) => {
@@ -175,7 +165,7 @@ function App() {
 
   function handleSignOut() {
     setLoggedIn(false);
-    localStorage.removeItem('jwt');
+    localStorage.removeItem('loggedIn');
     history.push('sign-in');
   }
 
