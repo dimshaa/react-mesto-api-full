@@ -15,21 +15,23 @@ class Api {
   }
 
   getUserInfo() {
-    return fetch(`${this._baseUrl}/${this._cohortId}/users/me`, {
+    return fetch(`${this._baseUrl}/users/me`, {
       headers: {
         authorization: this._token
-      }
+      },
+      credentials: 'include',
     })
       .then(res => this._handleResponse(res));
   }
 
   setUserInfo(data) {
-    return fetch(`${this._baseUrl}/${this._cohortId}/users/me`, {
+    return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
         authorization: this._token,
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify({
         name: data.name,
         about: data.about
@@ -39,21 +41,23 @@ class Api {
   }
 
   getInitialCards() {
-    return fetch(`${this._baseUrl}/${this._cohortId}/cards`, {
+    return fetch(`${this._baseUrl}/cards`, {
       headers: {
         authorization: this._token,
       },
+      credentials: 'include',
     })
       .then((res) => this._handleResponse(res));
   }
 
   uploadCard(data) {
-    return fetch(`${this._baseUrl}/${this._cohortId}/cards`, {
+    return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: {
         authorization: this._token,
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify({
         name: data.name,
         link: data.link
@@ -63,12 +67,13 @@ class Api {
   }
 
   deleteCard(cardId) {
-    return fetch(`${this._baseUrl}/${this._cohortId}/cards/${cardId}`, {
+    return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
       headers: {
         authorization: this._token,
         'Content-Type': 'application/json'
-      }
+      },
+      credentials: 'include',
     })
       .then(res => this._handleResponse(res));
   }
@@ -82,23 +87,24 @@ class Api {
       method = 'PUT';
     }
 
-    return fetch(`${this._baseUrl}/${this._cohortId}/cards/${cardId}/likes`, {
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: method,
       headers: {
         authorization: this._token,
         'Content-Type': 'application/json'
-      }
+      },
+      credentials: 'include',
     })
       .then(res => this._handleResponse(res));
   }
 
   changeAvatar(data) {
-    return fetch(`${this._baseUrl}/${this._cohortId}/users/me/avatar`, {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
-        authorization: this._token,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify({
         avatar: data.avatar,
       })

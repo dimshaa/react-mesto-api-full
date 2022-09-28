@@ -1,0 +1,14 @@
+.header__logout-btn {
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  margin-left: 24px;
+  background-color: transparent;
+  color: #fff;
+  opacity: .6;
+  transition: opacity .6s ease;
+}
+
+.header__logout-btn:hover {
+  opacity: 1;
+}
