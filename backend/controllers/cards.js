@@ -5,10 +5,8 @@ const ForbiddenError = require('../utils/errors/ForbiddenError');
 
 const getCards = (req, res, next) => {
   Card.find({})
-    .populate('owner', 'name about')
-    .populate('likes', 'name')
     .then((cards) => {
-      res.send({ data: cards });
+      res.send(cards);
     })
     .catch((err) => {
       next(err);
@@ -20,7 +18,7 @@ const createCard = (req, res, next) => {
 
   Card.create({ name, link, owner: req.user._id })
     .then((card) => {
-      res.send({ data: card });
+      res.send(card);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -67,7 +65,7 @@ const likeCard = (req, res, next) => {
         next(new NotFoundError('Card not found'));
         return;
       }
-      res.send({ data: card });
+      res.send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -89,7 +87,7 @@ const dislikeCard = (req, res, next) => {
         next(new NotFoundError('Card not found'));
         return;
       }
-      res.send({ data: card });
+      res.send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {

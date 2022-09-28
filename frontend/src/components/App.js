@@ -39,13 +39,40 @@ function App() {
   //     .catch(err => console.log(err))
   // }, []);
 
-  // useEffect(() => {
-  //   api.getInitialCards()
-  //     .then(cardsData => {
-  //       setCards(cardsData);
+  useEffect(() => {
+    if (loggedIn) {
+      api.getUserInfo()
+      .then(({ data }) => {
+      setCurrentUser(data);
+    })
+      .catch(err => console.log(err))      
+    };
+  }, [loggedIn]);
+
+  useEffect(() => {
+    if (currentUser) {
+
+      api.getInitialCards()
+        .then((res) => {
+          setCards(res);
+        })
+        .catch(err => console.log(err))
+    }
+  }, [currentUser]);
+
+    // useEffect(() => {
+  //   const token = localStorage.getItem('jwt');
+
+  //   if (token) {
+  //     auth.checkToken(token)
+  //     .then(({ data }) => {
+  //       setAuthorizedUser(data.email);
+  //       setLoggedIn(true);
+  //       history.push('/')
   //     })
-  //     .catch(err => console.log(err))
-  // }, []);
+  //     .catch(err => console.log(err));
+  //   }
+  // }, [])
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -90,10 +117,11 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
 
     api.likeCard(card._id, isLiked)
       .then((newCard) => {
+        console.log(cards);
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
       })
       .catch(err => console.log(err));
@@ -132,10 +160,10 @@ function App() {
 
   function handleLoginSubmit({ password, email }) {
     auth.authorize({ password, email })
-    .then(({ token }) => {
+    .then(({ data }) => {
       setLoggedIn(true);
-      setAuthorizedUser(email);
-      // localStorage.setItem('jwt', token);
+      setAuthorizedUser(data.email);
+      localStorage.setItem('loggedIn', true);
       history.push('/');
     })
     .catch((err) => {
@@ -150,20 +178,6 @@ function App() {
     localStorage.removeItem('jwt');
     history.push('sign-in');
   }
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem('jwt');
-
-  //   if (token) {
-  //     auth.checkToken(token)
-  //     .then(({ data }) => {
-  //       setAuthorizedUser(data.email);
-  //       setLoggedIn(true);
-  //       history.push('/')
-  //     })
-  //     .catch(err => console.log(err));
-  //   }
-  // }, [])
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
