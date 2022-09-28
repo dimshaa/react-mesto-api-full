@@ -7,12 +7,14 @@ const ConflictError = require('../utils/errors/ConflictError');
 const NotFoundError = require('../utils/errors/NotFoundError');
 const UnauthorizedError = require('../utils/errors/UnauthorizedError');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
+
 const login = (req, res, next) => {
   const { email, password } = req.body;
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user.id }, 'some-secret-key', { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user.id }, NODE_ENV === 'production' ? JWT_SECRET : 'super-secret-key', { expiresIn: '7d' });
 
       res.cookie('jwt', token, { maxAge: 604800000, httpOnly: true }).send(user.toJSON());
     })
