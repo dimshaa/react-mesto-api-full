@@ -10,6 +10,6 @@
 
 IP-адрес 84.201.135.9
 
-Frontend https://domesto.nomorepartiesxyz.ru
+Frontend https://domesto.nomoredomains.club
 
-Backend https://api.domesto.nomorepartiesxyz.ru
+Backend https://api.domesto.nomoredomains.club

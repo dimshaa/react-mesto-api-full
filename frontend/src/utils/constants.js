@@ -1,11 +1,9 @@
 export const credentials = {
-  baseUrl: 'http://localhost:4000',
-  // cohortId: 'cohort-43',
-  // token: 'c4f0f8b8-a52c-4e71-bc8a-938ca58bb704'
+  baseUrl: 'https://api.domesto.nomoredomains.club',
 };
 
 export const authData = {
-  baseUrl: 'http://localhost:4000',
+  baseUrl: 'https://api.domesto.nomoredomains.club',
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',

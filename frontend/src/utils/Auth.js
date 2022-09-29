@@ -36,16 +36,6 @@ class Auth {
     })
     .then(res => this._handleResponse(res));
   };
-
-  // checkToken = (token) => {
-  //   return fetch(`${this._url}/users/me`, {
-  //     headers: {
-  //       ...this._headers,
-  //       'Authorization' : `Bearer ${token}`
-  //     }
-  //   })
-  //   .then(res => this._handleResponse(res));
-  // };
 }
 
 const auth = new Auth(authData);
