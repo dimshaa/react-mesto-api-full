@@ -8,7 +8,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 84.201.135.9
+IP 84.201.135.9
 
 Frontend https://domesto.nomoredomains.club
 
